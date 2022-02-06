@@ -19,6 +19,7 @@ h1 {
 
 a {
   color: #4262c5;
+  text-decoration: none;
 }
 
 img {
@@ -139,7 +140,7 @@ img {
 
 .grados-link {
   text-decoration: none;
-  font-size: 40px;
+  font-size: 30px;
   color: #4262c5;
   vertical-align: top;
   line-height: 100px;
