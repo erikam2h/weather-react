@@ -1,103 +1,106 @@
-import React from "react";
-//import axios from "axios";
+import React, { useState } from "react";
+import axios from "axios";
 import "./weather-style.css";
-import Forecast from "./Forecast";
 
 export default function Weather() {
-  let weatherData = {
-    city: "Berlin",
-    temperature: 19,
-    date: "Tuesday 10:00",
-    description: "Cloudy",
-    imgUrl: "https://ssl.gstatic.com/onebox/weather/64/cloudy.png",
-    humidity: 80,
-    wind: 10,
-  };
+  const [ready, setReady] = useState(false);
+  const [weatherData, setWeatherData] = useState({});
 
-  return (
-    <div className="weather">
-      <div className="container-fluid m-0 p-5">
-        <div className="container w-70">
-          <div className="row justify-content-md-center">
-            <div className="col-lg-4 col-sm-12">
-              <h1 className="heading">
-                Daily <b>weather</b>
-              </h1>
-            </div>
+  function handleResponse(response) {
+    console.log(response.data);
+    setWeatherData({
+      temperature: Math.round(response.data.main.temp),
+      city: response.data.name,
+      date: "Wednesday 7:00",
+      description: response.data.weather[0].description,
+      icon: "https://ssl.gstatic.com/onebox/weather/64/cloudy.png",
+      wind: response.data.wind.speed,
+      humidity: response.data.main.humidity,
+    });
+    setReady(true);
+  }
 
-            <form className="search-form col-lg-7 col-sm-12" id="search-form">
-              <div className="row">
-                <div className="col-lg-4 col-sm-12">
-                  <input
-                    type="search"
-                    placeholder="Type a city.."
-                    autofocus="on"
-                    autocomplete="off"
-                    id="city-input"
-                    className="form-control shadow-sm"
-                  />
-                </div>
-                <div className="col-lg-3 col-sm-6">
-                  <input
-                    type="submit"
-                    value="Search"
-                    class="button-submit shadow-sm w-100"
-                  />
-                </div>
-
-                <div className="col-lg-4 col-sm-6">
-                  <button className="button-current w-100" id="myCity">
-                    My city
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div className="row justify-content-md-center mt-3 mb-5">
-            <div className="col-lg-4 col-sm-12">
-              <h3 className="city-name">{weatherData.city}</h3>
-              <p className="date">Last updated: {weatherData.date}</p>
-              <div className="humidity-wind">
-                Humidity: {weatherData.humidity}% - Wind: {weatherData.wind}
-                km/h
-              </div>
-            </div>
-
-            <div className="col-lg-7 col-sm-12">
-              <div className="row">
-                <div className="col-6">
-                  <img
-                    src={weatherData.imgUrl}
-                    alt={weatherData.description}
-                    className="float-left"
-                  />
-                  <p className="humidity-wind type" id="weather-type"></p>
-                </div>
-                <div className="col-6">
-                  <div className="weather-lg">
-                    {weatherData.temperature}
-                    <span className="grados-link">°C</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+  if (ready) {
+    return (
+      <div className="weather container">
+        <div className="row justify-content-center">
+          <div className="col-lg-4 col-sm-12">
+            <h1 className="heading text-center">
+              Daily <b>weather</b>
+            </h1>
           </div>
 
-          <Forecast />
+          <form className="search-form col-lg-6 col-sm-12" id="search-form">
+            <div className="row">
+              <div className="col-lg-6 col-sm-6 pb-3">
+                <input
+                  type="search"
+                  placeholder="Type a city.."
+                  autofocus="on"
+                  autocomplete="off"
+                  id="city-input"
+                  className="form-control shadow-sm"
+                />
+              </div>
+              <div className="col-lg-4 col-sm-6 pb-3">
+                <input
+                  type="submit"
+                  value="Search"
+                  className="button-submit shadow-sm w-100"
+                />
+              </div>
+            </div>
+          </form>
+          <hr />
+        </div>
 
-          <div className="col-12 link-footer mt-4">
-            <hr />
-            <a
-              href="https://github.com/erikam2h/weather-app-shecodes"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Open source code
-            </a>
-            <span> by Erika Mora</span>
+        <div className="row justify-content-md-center mb-5">
+          <div className="col-lg-3 col-sm-12">
+            <h3 className="city-name">{weatherData.city}</h3>
+            <p className="date">Last updated: {weatherData.date}</p>
+
+            <ul className="humidity-wind ">
+              <li>Precipitation: 15%</li>
+              <li>Humidity: {weatherData.humidity}%</li>
+              <li>Wind: {weatherData.wind} km/h</li>
+            </ul>
+          </div>
+          <div className="col-lg-2 col-sm-6">
+            <div className="weather-lg text-center">
+              {weatherData.temperature}
+              <span className="grados-link">°C</span>
+            </div>
+          </div>
+          <div className="col-lg-2 col-sm-6 mt-4">
+            <img
+              src={weatherData.icon}
+              alt={weatherData.description}
+              className="float-left"
+            />
+            <p className="description text-capitalize">
+              {weatherData.description}
+            </p>
           </div>
         </div>
+        <div className="col-12 link-footer mt-4">
+          <hr />
+          <a
+            href="https://github.com/erikam2h/weather-app-shecodes"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Open source code
+          </a>
+          <span> by Erika Mora</span>
+        </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    let apiKey = "62443ec44a5ca2da39a6b31ebb5a82c4";
+    let city = "Berlin";
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+    axios.get(apiUrl).then(handleResponse);
+
+    return "The app is loading test...";
+  }
 }
