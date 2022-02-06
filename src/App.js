@@ -6,7 +6,7 @@ import "./weather-style.css";
 function App() {
   return (
     <div>
-      <Weather />
+      <Weather defaultCity="Berlin" />
     </div>
   );
 }

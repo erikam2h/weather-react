@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./weather-style.css";
+import FormatDate from "./FormatDate";
 
-export default function Weather() {
+export default function Weather(props) {
   const [ready, setReady] = useState(false);
   const [weatherData, setWeatherData] = useState({});
 
@@ -11,7 +12,7 @@ export default function Weather() {
     setWeatherData({
       temperature: Math.round(response.data.main.temp),
       city: response.data.name,
-      date: "Wednesday 7:00",
+      date: new Date(response.data.dt * 1000),
       description: response.data.weather[0].description,
       icon: "https://ssl.gstatic.com/onebox/weather/64/cloudy.png",
       wind: response.data.wind.speed,
@@ -36,8 +37,8 @@ export default function Weather() {
                 <input
                   type="search"
                   placeholder="Type a city.."
-                  autofocus="on"
-                  autocomplete="off"
+                  autoFocus="on"
+                  autoComplete="off"
                   id="city-input"
                   className="form-control shadow-sm"
                 />
@@ -57,7 +58,9 @@ export default function Weather() {
         <div className="row justify-content-md-center mb-5">
           <div className="col-lg-3 col-sm-12">
             <h3 className="city-name">{weatherData.city}</h3>
-            <p className="date">Last updated: {weatherData.date}</p>
+            <p className="date">
+              <FormatDate date={weatherData.date} />
+            </p>
 
             <ul className="humidity-wind ">
               <li>Precipitation: 15%</li>
@@ -97,8 +100,7 @@ export default function Weather() {
     );
   } else {
     let apiKey = "62443ec44a5ca2da39a6b31ebb5a82c4";
-    let city = "Berlin";
-    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${props.defaultCity}&appid=${apiKey}&units=metric`;
     axios.get(apiUrl).then(handleResponse);
 
     return "The app is loading test...";
