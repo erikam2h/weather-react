@@ -58,9 +58,8 @@ export default function Weather(props) {
         <div className="row justify-content-md-center mb-5">
           <div className="col-lg-3 col-sm-12">
             <h3 className="city-name">{weatherData.city}</h3>
-            <p className="date">
-              <FormatDate date={weatherData.date} />
-            </p>
+
+            <FormatDate date={weatherData.date} />
 
             <ul className="humidity-wind ">
               <li>Precipitation: 15%</li>
@@ -80,7 +79,7 @@ export default function Weather(props) {
               alt={weatherData.description}
               className="float-left"
             />
-            <p className="description text-capitalize">
+            <p className="description text-capitalize text-center">
               {weatherData.description}
             </p>
           </div>
