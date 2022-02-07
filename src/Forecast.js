@@ -18,7 +18,9 @@ export default function Forecast(props) {
     console.log(forecast);
     return (
       <div className="row justify-content-md-center mt-4">
-        <ForecastDay dataForecast={forecast[0]} />
+        {forecast.map(function (dailyForecast, index) {
+          return <ForecastDay dataForecast={dailyForecast} key={index} />;
+        })}
       </div>
     );
   } else {
