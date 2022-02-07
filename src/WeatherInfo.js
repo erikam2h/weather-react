@@ -5,7 +5,7 @@ import WeatherUnits from "./WeatherUnits";
 
 export default function WeatherInfo(props) {
   return (
-    <div className="row justify-content-md-center mb-5">
+    <div className="row justify-content-md-center">
       <div className="col-lg-3 col-sm-12">
         <h3 className="city-name">{props.data.city}</h3>
 
