@@ -1,41 +1,32 @@
 import React from "react";
+import WeatherIcon from "./WeatherIcon";
+import axios from "axios";
 
-export default function Forecast() {
+export default function Forecast(props) {
+  function handleResponseF(response) {
+    console.log(response.data);
+  }
+  console.log(props);
+
+  let apiKey = "62443ec44a5ca2da39a6b31ebb5a82c4";
+  let lon = props.coordinates.lon;
+  let lat = props.coordinates.lat;
+  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+
+  axios.get(apiUrl).then(handleResponseF);
+
   return (
-    <div class="row justify-content-md-center mt-4">
-      <div class="col-lg-2 col-sm-4 box-day">
-        <p class="day">Monday</p>
-        <h2 class="weather-s">☀ 22°C</h2>
-        <hr class="box-line" />
-        <p class="min-max-s">7°C| 28°C</p>
-      </div>
-
-      <div class="col-lg-2 col-sm-4 box-day">
-        <p class="day">Tuesday</p>
-        <h2 class="weather-s">🌤 20°C</h2>
-        <hr class="box-line" />
-        <p class="min-max-s">7°C | 28°C</p>
-      </div>
-
-      <div class="col-lg-2 col-sm-4 box-day">
-        <p class="day">Wednesday</p>
-        <h2 class="weather-s">☀ 26°C</h2>
-        <hr class="box-line" />
-        <p class="min-max-s">7°C | 28°C</p>
-      </div>
-
-      <div class="col-lg-2 col-sm-4 box-day">
-        <p class="day">Thursday</p>
-        <h2 class="weather-s">🌦 19°C</h2>
-        <hr class="box-line" />
-        <p class="min-max-s">7°C | 22°C</p>
-      </div>
-
-      <div class="col-lg-2 col-sm-4 box-day">
-        <p class="day">Friday</p>
-        <h2 class="weather-s">🌧 16°C</h2>
-        <hr class="box-line" />
-        <p class="min-max-s">5°C | 18°C</p>
+    <div className="row justify-content-md-center mt-4">
+      <div className="col-lg-2 col-sm-4 box-day">
+        <p className="day">Monday</p>
+        <p className="text-center">
+          <WeatherIcon code="01d" size={45} />
+        </p>
+        <hr className="box-line" />
+        <p className="text-center">
+          <span className="forecast-min">7°C </span> |
+          <span className="forecast-max"> 28°C</span>
+        </p>
       </div>
     </div>
   );

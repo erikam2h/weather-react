@@ -3,6 +3,7 @@ import axios from "axios";
 import "./weather-style.css";
 
 import WeatherInfo from "./WeatherInfo";
+import Forecast from "./Forecast";
 
 export default function Weather(props) {
   const [ready, setReady] = useState(false);
@@ -10,7 +11,6 @@ export default function Weather(props) {
   const [weatherData, setWeatherData] = useState({});
 
   function handleResponse(response) {
-    console.log(response.data);
     setWeatherData({
       temperature: Math.round(response.data.main.temp),
       city: response.data.name,
@@ -20,6 +20,7 @@ export default function Weather(props) {
       //icon: `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
       wind: response.data.wind.speed,
       humidity: response.data.main.humidity,
+      coordinates: response.data.coord,
     });
     setReady(true);
   }
@@ -77,6 +78,9 @@ export default function Weather(props) {
         </div>
 
         <WeatherInfo data={weatherData} />
+        <div className="col-10">
+          <Forecast coordinates={weatherData.coordinates} />
+        </div>
 
         <div className="col-12 link-footer mt-4">
           <hr />
