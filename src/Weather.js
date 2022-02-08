@@ -97,6 +97,6 @@ export default function Weather(props) {
   } else {
     search();
 
-    return "The app is loading test...";
+    return "The app is loading...";
   }
 }

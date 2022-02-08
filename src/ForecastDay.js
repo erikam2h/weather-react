@@ -20,8 +20,7 @@ export default function ForecastDay(props) {
       <p className="text-center">
         <span className="forecast-max">
           {Math.round(props.dataForecast.temp.max)}°{" "}
-        </span>{" "}
-        -
+        </span>
         <span className="forecast-min">
           {" "}
           {Math.round(props.dataForecast.temp.min)}°
