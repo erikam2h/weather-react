@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./weather-style.css";
-
 import WeatherInfo from "./WeatherInfo";
 import Forecast from "./Forecast";
+
+import { Rings } from "react-loader-spinner";
 
 export default function Weather(props) {
   const [ready, setReady] = useState(false);
@@ -97,6 +98,14 @@ export default function Weather(props) {
   } else {
     search();
 
-    return "The app is loading...";
+    return (
+      <Rings
+        heigth="3000"
+        width="3000"
+        color="#40356f"
+        ariaLabel="loading"
+        className="text-center mt-5"
+      />
+    );
   }
 }
